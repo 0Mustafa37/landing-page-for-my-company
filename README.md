@@ -31,5 +31,5 @@ python3 -m http.server 8000
 
 Because this is a static site, you can host it anywhere:
 
-- **GitHub Pages:** Settings → Pages → Deploy from branch → pick the branch and `/ (root)`.
+- **GitHub Pages (set up):** `.github/workflows/pages.yml` publishes the site on every push to the default branch. One-time setup: Settings → Pages → Source → **GitHub Actions**. Private repos need a paid GitHub plan for Pages; otherwise make the repo public.
 - **Netlify / Vercel / Cloudflare Pages:** connect the repo; no build command needed, publish directory is the root.
