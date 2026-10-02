@@ -5,210 +5,372 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Nimbus — Ship faster with less overhead</title>
   <meta name="description" content="Nimbus is the all-in-one platform that helps software teams plan, build, and ship faster." />
+  <meta name="theme-color" content="#05060a" />
   <meta property="og:title" content="Nimbus — Ship faster with less overhead" />
   <meta property="og:description" content="The all-in-one platform that helps software teams plan, build, and ship faster." />
   <meta property="og:type" content="website" />
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
   <script>document.documentElement.classList.add("js")</script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
+  <!-- Preloader -->
+  <div class="preloader" aria-hidden="true">
+    <div class="preloader-inner">
+      <div class="preloader-logo">
+        <img src="assets/favicon.svg" alt="" width="44" height="44" />
+        <span>Nimbus</span>
+      </div>
+      <div class="preloader-bar"><i></i></div>
+      <span class="preloader-count">0</span>
+    </div>
+  </div>
+
+  <!-- Cursor + scroll progress -->
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
+  <div class="scroll-progress" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
   <header class="site-header" id="top">
-    <div class="container nav">
+    <div class="nav">
       <a href="#top" class="logo" aria-label="Nimbus home">
         <img src="assets/favicon.svg" alt="" width="28" height="28" />
         <span>Nimbus</span>
       </a>
-      <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
-        <span></span><span></span><span></span>
-      </button>
       <nav id="nav-menu" class="nav-menu" aria-label="Primary">
         <a href="#features">Features</a>
         <a href="#how">How it works</a>
+        <a href="#stats">Results</a>
         <a href="#contact">Contact</a>
-        <a href="#contact" class="btn btn-primary btn-sm">Get started</a>
       </nav>
+      <a href="#contact" class="btn btn-primary btn-sm nav-cta" data-magnetic><span>Get started</span></a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+        <span></span><span></span>
+      </button>
     </div>
   </header>
 
   <main id="main">
-    <!-- Hero -->
+    <!-- ================= HERO ================= -->
     <section class="hero">
-      <div class="container hero-grid">
-        <div class="hero-copy">
-          <span class="eyebrow">New · Release automation is here</span>
-          <h1>Ship faster with <span class="gradient-text">less overhead</span></h1>
-          <p class="lead">
-            Nimbus brings planning, deployments, and monitoring into one workspace,
-            so your team spends less time on busywork and more time building.
-          </p>
-          <div class="hero-actions">
-            <a href="#contact" class="btn btn-primary">Start free trial</a>
-            <a href="#features" class="btn btn-ghost">See features →</a>
-          </div>
-          <p class="hero-note">No credit card required · 14-day free trial</p>
-        </div>
+      <canvas class="hero-canvas" aria-hidden="true"></canvas>
+      <div class="hero-glow hero-glow-1" aria-hidden="true"></div>
+      <div class="hero-glow hero-glow-2" aria-hidden="true"></div>
+      <div class="hero-grid-bg" aria-hidden="true"></div>
 
-        <div class="hero-visual" aria-hidden="true">
-          <div class="mock-window">
-            <div class="mock-bar"><span></span><span></span><span></span></div>
-            <div class="mock-body">
-              <div class="mock-stat">
-                <small>Deploys this week</small>
-                <strong>128</strong>
-                <em class="up">▲ 24%</em>
-              </div>
-              <div class="mock-chart">
-                <i style="--h:40%"></i><i style="--h:55%"></i><i style="--h:35%"></i>
-                <i style="--h:70%"></i><i style="--h:60%"></i><i style="--h:85%"></i>
-                <i style="--h:95%"></i>
-              </div>
-              <ul class="mock-list">
-                <li><b class="dot ok"></b>api-gateway deployed <time>2m ago</time></li>
-                <li><b class="dot ok"></b>web-app deployed <time>18m ago</time></li>
-                <li><b class="dot warn"></b>worker rollback <time>1h ago</time></li>
-              </ul>
+      <div class="container hero-inner">
+        <a href="#features" class="badge hero-badge">
+          <span class="badge-dot"></span>
+          New — Release automation is here
+          <span class="badge-arrow">→</span>
+        </a>
+
+        <h1 class="hero-title" data-split>
+          Ship faster with <em class="serif">less</em> <span class="gradient-text">overhead</span>
+        </h1>
+
+        <p class="hero-lead">
+          Nimbus brings planning, deployments, and monitoring into one beautifully fast workspace —
+          so your team spends less time on busywork and more time building.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-primary btn-lg" data-magnetic><span>Start free trial</span></a>
+          <a href="#features" class="btn btn-glass btn-lg" data-magnetic><span>Explore features</span></a>
+        </div>
+        <p class="hero-note">No credit card required · 14-day free trial · Cancel anytime</p>
+
+        <!-- Product mockup -->
+        <div class="hero-visual">
+          <div class="mock" data-tilt>
+            <div class="mock-glow" aria-hidden="true"></div>
+            <div class="mock-bar">
+              <span></span><span></span><span></span>
+              <div class="mock-url">app.nimbus.dev/overview</div>
             </div>
+            <div class="mock-body">
+              <aside class="mock-side" aria-hidden="true">
+                <i class="active"></i><i></i><i></i><i></i><i></i>
+              </aside>
+              <div class="mock-main">
+                <div class="mock-kpis">
+                  <div class="kpi">
+                    <small>Deploys this week</small>
+                    <strong data-live="deploys">128</strong>
+                    <em class="up">▲ 24%</em>
+                  </div>
+                  <div class="kpi">
+                    <small>Uptime</small>
+                    <strong>99.99%</strong>
+                    <em class="up">● Healthy</em>
+                  </div>
+                  <div class="kpi">
+                    <small>p95 latency</small>
+                    <strong data-live="latency">84ms</strong>
+                    <em class="up">▼ 12%</em>
+                  </div>
+                </div>
+                <div class="mock-chart">
+                  <svg viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true">
+                    <defs>
+                      <linearGradient id="lineGrad" x1="0" x2="1">
+                        <stop offset="0" stop-color="#8b5cf6" />
+                        <stop offset=".5" stop-color="#22d3ee" />
+                        <stop offset="1" stop-color="#f472b6" />
+                      </linearGradient>
+                      <linearGradient id="areaGrad" x1="0" x2="0" y1="0" y2="1">
+                        <stop offset="0" stop-color="#8b5cf6" stop-opacity=".35" />
+                        <stop offset="1" stop-color="#8b5cf6" stop-opacity="0" />
+                      </linearGradient>
+                    </defs>
+                    <path class="chart-area" d="M0,95 C40,90 60,70 100,72 S160,88 200,60 S270,40 300,45 S360,20 400,12 L400,120 L0,120 Z" fill="url(#areaGrad)" />
+                    <path class="chart-line" d="M0,95 C40,90 60,70 100,72 S160,88 200,60 S270,40 300,45 S360,20 400,12" fill="none" stroke="url(#lineGrad)" stroke-width="3" stroke-linecap="round" />
+                    <circle class="chart-dot" cx="400" cy="12" r="5" />
+                  </svg>
+                </div>
+                <ul class="mock-feed" aria-hidden="true">
+                  <li><b class="dot ok"></b><span>api-gateway deployed to production</span><time>2m</time></li>
+                  <li><b class="dot ok"></b><span>web-app preview ready</span><time>18m</time></li>
+                  <li><b class="dot warn"></b><span>worker auto-rolled back</span><time>1h</time></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="float-chip chip-1" aria-hidden="true">
+            <span class="chip-icon ok">✓</span>
+            <div><b>Deploy succeeded</b><small>main · 41s</small></div>
+          </div>
+          <div class="float-chip chip-2" aria-hidden="true">
+            <span class="chip-icon">⚡</span>
+            <div><b>10× faster</b><small>than last quarter</small></div>
+          </div>
+          <div class="float-chip chip-3" aria-hidden="true">
+            <span class="avatars"><i></i><i></i><i></i></span>
+            <div><b>3 reviewers</b><small>approved PR #482</small></div>
           </div>
         </div>
       </div>
 
-      <div class="container logos">
-        <p>Trusted by fast-moving teams</p>
-        <ul>
+      <div class="scroll-cue" aria-hidden="true"><span></span></div>
+    </section>
+
+    <!-- ================= LOGO MARQUEE ================= -->
+    <section class="logos" aria-label="Customers">
+      <p>Trusted by 4,000+ fast-moving teams</p>
+      <div class="marquee">
+        <ul class="marquee-track">
           <li>Acme</li><li>Globex</li><li>Initech</li><li>Umbrella</li><li>Hooli</li>
+          <li>Stark</li><li>Wayne</li><li>Soylent</li><li>Massive</li><li>Vandelay</li>
+        </ul>
+        <ul class="marquee-track" aria-hidden="true">
+          <li>Acme</li><li>Globex</li><li>Initech</li><li>Umbrella</li><li>Hooli</li>
+          <li>Stark</li><li>Wayne</li><li>Soylent</li><li>Massive</li><li>Vandelay</li>
         </ul>
       </div>
     </section>
 
-    <!-- Features -->
+    <!-- ================= STATEMENT ================= -->
+    <section class="statement">
+      <div class="container">
+        <p class="statement-text" data-highlight>
+          Your team deserves tools that disappear. Nimbus replaces a patchwork of dashboards,
+          scripts, and spreadsheets with one calm, blazing-fast workspace — so shipping feels
+          effortless again.
+        </p>
+      </div>
+    </section>
+
+    <!-- ================= FEATURES (BENTO) ================= -->
     <section id="features" class="section">
       <div class="container">
         <header class="section-head">
           <span class="eyebrow">Features</span>
-          <h2>Everything your team needs, nothing it doesn't</h2>
-          <p>Replace a patchwork of tools with one platform built for modern software teams.</p>
+          <h2 data-split>Everything you need. <em class="serif">Nothing</em> you don't.</h2>
+          <p data-fade>One platform for the entire software lifecycle — from the first ticket to the millionth request.</p>
         </header>
 
-        <div class="feature-grid">
-          <article class="card reveal">
-            <div class="icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        <div class="bento">
+          <!-- Deploys -->
+          <article class="bento-card span-2" data-reveal>
+            <div class="bento-visual pipeline" aria-hidden="true">
+              <div class="pipe-node"><span>Build</span></div>
+              <div class="pipe-line"><i></i></div>
+              <div class="pipe-node"><span>Test</span></div>
+              <div class="pipe-line"><i></i></div>
+              <div class="pipe-node"><span>Deploy</span></div>
+              <div class="pipe-line"><i></i></div>
+              <div class="pipe-node live"><span>Live</span></div>
             </div>
             <h3>One-click deploys</h3>
-            <p>Push to main and Nimbus builds, tests, and ships your app with automatic rollbacks.</p>
+            <p>Push to main and Nimbus builds, tests, and ships — with instant automatic rollbacks if anything looks off.</p>
           </article>
-          <article class="card reveal">
-            <div class="icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg>
+
+          <!-- Monitoring -->
+          <article class="bento-card" data-reveal>
+            <div class="bento-visual spark" aria-hidden="true">
+              <svg viewBox="0 0 200 80" preserveAspectRatio="none">
+                <path d="M0,60 L20,55 L40,62 L60,40 L80,45 L100,25 L120,35 L140,18 L160,28 L180,10 L200,16" fill="none" stroke="url(#lineGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <span class="pulse-dot"></span>
             </div>
             <h3>Real-time monitoring</h3>
-            <p>Track uptime, latency, and errors in live dashboards with alerts that cut through the noise.</p>
+            <p>Live dashboards and alerts that cut through the noise.</p>
           </article>
-          <article class="card reveal">
-            <div class="icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 4v16"/></svg>
-            </div>
-            <h3>Planning boards</h3>
-            <p>Roadmaps, sprints, and issues that link directly to the code and deploys behind them.</p>
-          </article>
-          <article class="card reveal">
-            <div class="icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+
+          <!-- Security -->
+          <article class="bento-card" data-reveal>
+            <div class="bento-visual shield" aria-hidden="true">
+              <span class="ring"></span><span class="ring"></span><span class="ring"></span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
             </div>
             <h3>Security built in</h3>
-            <p>SSO, role-based access, and audit logs on every plan. SOC 2 Type II compliant.</p>
+            <p>SSO, RBAC, and audit logs on every plan. SOC 2 Type II.</p>
           </article>
-          <article class="card reveal">
-            <div class="icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M15 20c0-2.2 1-4 3-4.5"/></svg>
+
+          <!-- Planning -->
+          <article class="bento-card span-2" data-reveal>
+            <div class="bento-visual kanban" aria-hidden="true">
+              <div class="col"><small>To do</small><i></i><i></i></div>
+              <div class="col"><small>In progress</small><i></i><i class="moving"></i></div>
+              <div class="col"><small>Shipped</small><i></i><i></i></div>
             </div>
-            <h3>Built for collaboration</h3>
-            <p>Comments, reviews, and shared environments keep everyone on the same page.</p>
+            <h3>Planning that's wired to your code</h3>
+            <p>Roadmaps, sprints, and issues that link directly to the commits and deploys behind them — status updates itself.</p>
           </article>
-          <article class="card reveal">
-            <div class="icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>
+
+          <!-- Integrations -->
+          <article class="bento-card span-2" data-reveal>
+            <div class="bento-visual orbit" aria-hidden="true">
+              <div class="orbit-core"><img src="assets/favicon.svg" alt="" width="40" height="40" /></div>
+              <div class="orbit-ring r1"><span>GH</span><span>SL</span></div>
+              <div class="orbit-ring r2"><span>JR</span><span>DD</span><span>AWS</span></div>
             </div>
             <h3>50+ integrations</h3>
-            <p>Connect GitHub, Slack, Jira, and the rest of your stack in a couple of clicks.</p>
+            <p>Connect GitHub, Slack, Jira, Datadog, AWS, and the rest of your stack in a couple of clicks.</p>
+          </article>
+
+          <!-- Collaboration -->
+          <article class="bento-card" data-reveal>
+            <div class="bento-visual collab" aria-hidden="true">
+              <span class="cursor c1">Ana</span>
+              <span class="cursor c2">Leo</span>
+              <div class="collab-doc"><i></i><i></i><i></i></div>
+            </div>
+            <h3>Multiplayer by default</h3>
+            <p>Comments, reviews, and shared environments in real time.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- How it works -->
-    <section id="how" class="section section-alt">
-      <div class="container">
-        <header class="section-head">
+    <!-- ================= HOW IT WORKS (horizontal) ================= -->
+    <section id="how" class="hscroll">
+      <div class="hscroll-pin">
+        <div class="container hscroll-head">
           <span class="eyebrow">How it works</span>
-          <h2>Up and running in minutes</h2>
-        </header>
-        <ol class="steps">
-          <li class="reveal">
-            <span class="step-num">1</span>
+          <h2 data-split>Up and running in <em class="serif">minutes</em></h2>
+        </div>
+        <div class="hscroll-track">
+          <article class="step-card">
+            <span class="step-num">01</span>
             <h3>Connect your repo</h3>
-            <p>Link GitHub or GitLab and Nimbus detects your framework automatically.</p>
-          </li>
-          <li class="reveal">
-            <span class="step-num">2</span>
+            <p>Link GitHub or GitLab. Nimbus detects your framework and configures builds automatically.</p>
+            <div class="step-visual"><code>$ nimbus link <b>acme/web</b><br/><span class="ok">✓ Detected Next.js 15</span></code></div>
+          </article>
+          <article class="step-card">
+            <span class="step-num">02</span>
             <h3>Invite your team</h3>
-            <p>Bring in teammates with SSO and set permissions in one place.</p>
-          </li>
-          <li class="reveal">
-            <span class="step-num">3</span>
+            <p>Bring teammates in with SSO and set granular permissions from one place.</p>
+            <div class="step-visual"><div class="invite"><i></i><i></i><i></i><i></i><span>+12</span></div></div>
+          </article>
+          <article class="step-card">
+            <span class="step-num">03</span>
             <h3>Ship with confidence</h3>
-            <p>Every push is built, tested, deployed, and monitored — automatically.</p>
-          </li>
-        </ol>
+            <p>Every push is built, tested, deployed, and monitored — automatically, around the clock.</p>
+            <div class="step-visual"><div class="ship"><span class="ok">●</span> Production · <b>live</b> in 41s</div></div>
+          </article>
+          <article class="step-card step-cta">
+            <h3>Ready when you are.</h3>
+            <p>Join 4,000+ teams already shipping faster.</p>
+            <a href="#contact" class="btn btn-primary btn-lg" data-magnetic><span>Start free trial</span></a>
+          </article>
+        </div>
       </div>
     </section>
 
-    <!-- CTA + Contact -->
-    <section id="contact" class="section">
+    <!-- ================= STATS ================= -->
+    <section id="stats" class="section stats">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat" data-reveal>
+            <strong><span data-count="10">0</span>×</strong>
+            <p>faster release cycles</p>
+          </div>
+          <div class="stat" data-reveal>
+            <strong><span data-count="99.99" data-decimals="2">0</span>%</strong>
+            <p>platform uptime SLA</p>
+          </div>
+          <div class="stat" data-reveal>
+            <strong><span data-count="4000" data-format>0</span>+</strong>
+            <p>teams shipping daily</p>
+          </div>
+          <div class="stat" data-reveal>
+            <strong><span data-count="68">0</span>%</strong>
+            <p>less time on ops work</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CONTACT ================= -->
+    <section id="contact" class="section contact">
       <div class="container contact-grid">
         <div class="contact-copy">
           <span class="eyebrow">Get in touch</span>
-          <h2>Ready to move faster?</h2>
-          <p>Start a free trial or tell us about your team and we'll get back to you within one business day.</p>
+          <h2 data-split>Ready to move <em class="serif">faster?</em></h2>
+          <p data-fade>Start a free trial or tell us about your team — we'll get back to you within one business day.</p>
           <ul class="contact-points">
-            <li>✓ Personalized demo for your stack</li>
-            <li>✓ Help migrating from your current tools</li>
-            <li>✓ Volume pricing for larger teams</li>
+            <li data-fade><span>✓</span> Personalized demo for your stack</li>
+            <li data-fade><span>✓</span> White-glove migration from your current tools</li>
+            <li data-fade><span>✓</span> Volume pricing for larger teams</li>
           </ul>
-          <p class="contact-direct">Prefer email? <a href="mailto:hello@example.com">hello@example.com</a></p>
+          <p class="contact-direct" data-fade>Prefer email? <a href="mailto:hello@example.com">hello@example.com</a></p>
         </div>
 
-        <form class="contact-form card" id="contact-form" novalidate>
-          <div class="field">
-            <label for="name">Name</label>
-            <input id="name" name="name" type="text" autocomplete="name" required />
-            <small class="error" aria-live="polite"></small>
-          </div>
-          <div class="field">
-            <label for="email">Work email</label>
-            <input id="email" name="email" type="email" autocomplete="email" required />
-            <small class="error" aria-live="polite"></small>
-          </div>
-          <div class="field">
-            <label for="company">Company <span class="optional">(optional)</span></label>
-            <input id="company" name="company" type="text" autocomplete="organization" />
-          </div>
-          <div class="field">
-            <label for="message">How can we help?</label>
-            <textarea id="message" name="message" rows="4" required></textarea>
-            <small class="error" aria-live="polite"></small>
-          </div>
-          <!-- Honeypot field to deter spam bots -->
-          <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
-          <button type="submit" class="btn btn-primary btn-block">Send message</button>
-          <p class="form-status" role="status" aria-live="polite"></p>
-        </form>
+        <div class="form-shell" data-reveal>
+          <form class="contact-form" id="contact-form" novalidate>
+            <div class="field">
+              <input id="name" name="name" type="text" autocomplete="name" placeholder=" " required />
+              <label for="name">Name</label>
+              <small class="error" aria-live="polite"></small>
+            </div>
+            <div class="field">
+              <input id="email" name="email" type="email" autocomplete="email" placeholder=" " required />
+              <label for="email">Work email</label>
+              <small class="error" aria-live="polite"></small>
+            </div>
+            <div class="field">
+              <input id="company" name="company" type="text" autocomplete="organization" placeholder=" " />
+              <label for="company">Company (optional)</label>
+            </div>
+            <div class="field">
+              <textarea id="message" name="message" rows="4" placeholder=" " required></textarea>
+              <label for="message">How can we help?</label>
+              <small class="error" aria-live="polite"></small>
+            </div>
+            <!-- Honeypot field to deter spam bots -->
+            <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <button type="submit" class="btn btn-primary btn-lg btn-block" data-magnetic><span>Send message</span></button>
+            <p class="form-status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
       </div>
     </section>
   </main>
@@ -240,11 +402,17 @@
         <a href="#">Terms</a>
       </nav>
     </div>
+    <div class="footer-mega" aria-hidden="true">Nimbus</div>
     <div class="container footer-bottom">
       <p>© <span id="year"></span> Nimbus, Inc. All rights reserved.</p>
+      <a href="#top" class="back-top">Back to top ↑</a>
     </div>
   </footer>
 
+  <!-- GSAP 3.12.5 + ScrollTrigger (gsap.com/standard-license), Lenis 1.1.13 (MIT) -->
+  <script src="js/vendor/gsap.min.js" defer></script>
+  <script src="js/vendor/ScrollTrigger.min.js" defer></script>
+  <script src="js/vendor/lenis.min.js" defer></script>
   <script src="js/main.js" defer></script>
 </body>
 </html>
