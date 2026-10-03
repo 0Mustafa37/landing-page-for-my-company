@@ -8,9 +8,20 @@ A premium, animated landing page for a software/SaaS company. Plain HTML, CSS, a
 index.html          Page markup (hero, features, how it works, contact, footer)
 css/styles.css      Styles; theme colors live in :root at the top
 js/main.js          Animations, particle hero, live dashboard, nav, contact form
+js/i18n.js          English translations + UI strings for both languages
 js/vendor/          GSAP, ScrollTrigger, Lenis (minified)
 assets/favicon.svg  Logo / favicon
 ```
+
+## Languages
+
+Arabic is the default (right-to-left). Visitors can switch to English with the **EN** button in the header or the link in the footer; their choice is remembered. Link straight to English with `?lang=en`.
+
+- **Arabic copy** is written directly in `index.html`.
+- **English copy** is in `js/i18n.js`, matched by the `data-i18n` keys on each element.
+- Messages shown by JavaScript (form errors, live dashboard feed) are in `js/i18n.js` under `ui` for both languages.
+
+When you change text, update both places.
 
 ## Run locally
 
@@ -23,7 +34,7 @@ python3 -m http.server 8000
 
 ## Customize
 
-- **Company name and copy:** search `index.html` for `Nimbus` and replace the placeholder text.
+- **Company name and copy:** search `index.html` and `js/i18n.js` for `Nimbus` and replace the placeholder text.
 - **Brand colors:** edit `--violet`, `--cyan`, and `--pink` at the top of `css/styles.css` (particle colors are in `js/main.js`).
 - **Logo:** replace `assets/favicon.svg`.
 - **Contact form:** in `js/main.js`, set `CONTACT_EMAIL` to your address. To receive submissions without opening the visitor's email app, create a free form at a service like [Formspree](https://formspree.io) and paste its URL into `FORM_ENDPOINT`.

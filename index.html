@@ -1,23 +1,43 @@
 <!doctype html>
-<html lang="en">
+<!--
+  Arabic is the default language: the Arabic copy lives directly in this file.
+  English copy lives in js/i18n.js, keyed by the data-i18n* attributes below.
+-->
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Nimbus — Ship faster with less overhead</title>
-  <meta name="description" content="Nimbus is the all-in-one platform that helps software teams plan, build, and ship faster." />
+  <script>
+    // Pick the language before first paint so the layout direction never flashes.
+    (function () {
+      var lang = "ar";
+      try {
+        var q = new URLSearchParams(location.search).get("lang");
+        lang = q === "en" || q === "ar" ? q : localStorage.getItem("lang") || "ar";
+      } catch (e) {}
+      if (lang !== "en") lang = "ar";
+      var html = document.documentElement;
+      html.lang = lang;
+      html.dir = lang === "ar" ? "rtl" : "ltr";
+      html.classList.add("js");
+    })();
+  </script>
+  <title data-i18n="meta.title">Nimbus — أطلق منتجك أسرع بجهد أقل</title>
+  <meta name="description" data-i18n-attr="content:meta.description" content="Nimbus هي المنصة المتكاملة التي تساعد فرق البرمجيات على التخطيط والبناء والإطلاق بسرعة أكبر." />
   <meta name="theme-color" content="#05060a" />
-  <meta property="og:title" content="Nimbus — Ship faster with less overhead" />
-  <meta property="og:description" content="The all-in-one platform that helps software teams plan, build, and ship faster." />
+  <meta property="og:title" data-i18n-attr="content:meta.title" content="Nimbus — أطلق منتجك أسرع بجهد أقل" />
+  <meta property="og:description" data-i18n-attr="content:meta.description" content="Nimbus هي المنصة المتكاملة التي تساعد فرق البرمجيات على التخطيط والبناء والإطلاق بسرعة أكبر." />
   <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ar_AR" />
+  <meta property="og:locale:alternate" content="en_US" />
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@500;600;700;800&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
-  <script>document.documentElement.classList.add("js")</script>
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
+  <a class="skip-link" href="#main" data-i18n="skip">انتقل إلى المحتوى</a>
 
   <!-- Preloader -->
   <div class="preloader" aria-hidden="true">
@@ -39,20 +59,23 @@
 
   <header class="site-header" id="top">
     <div class="nav">
-      <a href="#top" class="logo" aria-label="Nimbus home">
+      <a href="#top" class="logo" data-i18n-attr="aria-label:nav.home" aria-label="الصفحة الرئيسية لـ Nimbus">
         <img src="assets/favicon.svg" alt="" width="28" height="28" />
         <span>Nimbus</span>
       </a>
-      <nav id="nav-menu" class="nav-menu" aria-label="Primary">
-        <a href="#features">Features</a>
-        <a href="#how">How it works</a>
-        <a href="#stats">Results</a>
-        <a href="#contact">Contact</a>
+      <nav id="nav-menu" class="nav-menu" data-i18n-attr="aria-label:nav.primary" aria-label="القائمة الرئيسية">
+        <a href="#features" data-i18n="nav.features">المزايا</a>
+        <a href="#how" data-i18n="nav.how">كيف تعمل</a>
+        <a href="#stats" data-i18n="nav.results">النتائج</a>
+        <a href="#contact" data-i18n="nav.contact">تواصل معنا</a>
       </nav>
-      <a href="#contact" class="btn btn-primary btn-sm nav-cta" data-magnetic><span>Get started</span></a>
-      <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
-        <span></span><span></span>
-      </button>
+      <div class="nav-actions">
+        <a href="?lang=en" class="lang-switch" data-lang-switch hreflang="en" lang="en" aria-label="Switch to English">EN</a>
+        <a href="#contact" class="btn btn-primary btn-sm nav-cta" data-magnetic><span data-i18n="nav.cta">ابدأ الآن</span></a>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" data-i18n-attr="aria-label:nav.open" aria-label="فتح القائمة">
+          <span></span><span></span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -67,24 +90,24 @@
       <div class="container hero-inner">
         <a href="#features" class="badge hero-badge">
           <span class="badge-dot"></span>
-          New — Release automation is here
+          <span data-i18n="hero.badge">جديد — أتمتة الإصدارات أصبحت متاحة</span>
           <span class="badge-arrow">→</span>
         </a>
 
-        <h1 class="hero-title" data-split>
-          Ship faster with <em class="serif">less</em> <span class="gradient-text">overhead</span>
+        <h1 class="hero-title" data-split data-i18n-html="hero.title">
+          أطلق منتجك <span class="gradient-text">أسرع</span> بجهد <em class="serif">أقل</em>
         </h1>
 
-        <p class="hero-lead">
-          Nimbus brings planning, deployments, and monitoring into one beautifully fast workspace —
-          so your team spends less time on busywork and more time building.
+        <p class="hero-lead" data-i18n="hero.lead">
+          تجمع Nimbus التخطيط والنشر والمراقبة في مساحة عمل واحدة فائقة السرعة —
+          ليقضي فريقك وقتًا أقل في المهام الروتينية ووقتًا أكثر في البناء.
         </p>
 
         <div class="hero-actions">
-          <a href="#contact" class="btn btn-primary btn-lg" data-magnetic><span>Start free trial</span></a>
-          <a href="#features" class="btn btn-glass btn-lg" data-magnetic><span>Explore features</span></a>
+          <a href="#contact" class="btn btn-primary btn-lg" data-magnetic><span data-i18n="hero.cta1">ابدأ تجربتك المجانية</span></a>
+          <a href="#features" class="btn btn-glass btn-lg" data-magnetic><span data-i18n="hero.cta2">استكشف المزايا</span></a>
         </div>
-        <p class="hero-note">No credit card required · 14-day free trial · Cancel anytime</p>
+        <p class="hero-note" data-i18n="hero.note">لا حاجة لبطاقة ائتمان · تجربة مجانية لمدة 14 يومًا · إلغاء في أي وقت</p>
 
         <!-- Product mockup -->
         <div class="hero-visual">
@@ -101,17 +124,17 @@
               <div class="mock-main">
                 <div class="mock-kpis">
                   <div class="kpi">
-                    <small>Deploys this week</small>
+                    <small data-i18n="mock.deploys">عمليات النشر هذا الأسبوع</small>
                     <strong data-live="deploys">128</strong>
                     <em class="up">▲ 24%</em>
                   </div>
                   <div class="kpi">
-                    <small>Uptime</small>
+                    <small data-i18n="mock.uptime">وقت التشغيل</small>
                     <strong>99.99%</strong>
-                    <em class="up">● Healthy</em>
+                    <em class="up" data-i18n="mock.healthy">● سليم</em>
                   </div>
                   <div class="kpi">
-                    <small>p95 latency</small>
+                    <small data-i18n="mock.latency">زمن الاستجابة p95</small>
                     <strong data-live="latency">84ms</strong>
                     <em class="up">▼ 12%</em>
                   </div>
@@ -135,9 +158,9 @@
                   </svg>
                 </div>
                 <ul class="mock-feed" aria-hidden="true">
-                  <li><b class="dot ok"></b><span>api-gateway deployed to production</span><time>2m</time></li>
-                  <li><b class="dot ok"></b><span>web-app preview ready</span><time>18m</time></li>
-                  <li><b class="dot warn"></b><span>worker auto-rolled back</span><time>1h</time></li>
+                  <li><b class="dot ok"></b><span data-i18n="mock.feed1">تم نشر api-gateway إلى بيئة الإنتاج</span><time data-i18n="mock.t1">قبل 2د</time></li>
+                  <li><b class="dot ok"></b><span data-i18n="mock.feed2">معاينة web-app جاهزة</span><time data-i18n="mock.t2">قبل 18د</time></li>
+                  <li><b class="dot warn"></b><span data-i18n="mock.feed3">تراجع تلقائي في worker</span><time data-i18n="mock.t3">قبل 1س</time></li>
                 </ul>
               </div>
             </div>
@@ -145,15 +168,15 @@
 
           <div class="float-chip chip-1" aria-hidden="true">
             <span class="chip-icon ok">✓</span>
-            <div><b>Deploy succeeded</b><small>main · 41s</small></div>
+            <div><b data-i18n="chip.deploy">تم النشر بنجاح</b><small>main · 41s</small></div>
           </div>
           <div class="float-chip chip-2" aria-hidden="true">
             <span class="chip-icon">⚡</span>
-            <div><b>10× faster</b><small>than last quarter</small></div>
+            <div><b data-i18n="chip.faster">أسرع 10×</b><small data-i18n="chip.quarter">مقارنة بالربع الماضي</small></div>
           </div>
           <div class="float-chip chip-3" aria-hidden="true">
             <span class="avatars"><i></i><i></i><i></i></span>
-            <div><b>3 reviewers</b><small>approved PR #482</small></div>
+            <div><b data-i18n="chip.reviewers">3 مراجعين</b><small data-i18n="chip.pr">وافقوا على PR #482</small></div>
           </div>
         </div>
       </div>
@@ -162,8 +185,8 @@
     </section>
 
     <!-- ================= LOGO MARQUEE ================= -->
-    <section class="logos" aria-label="Customers">
-      <p>Trusted by 4,000+ fast-moving teams</p>
+    <section class="logos" data-i18n-attr="aria-label:logos.label" aria-label="عملاؤنا">
+      <p data-i18n="logos.title">موثوق من أكثر من 4,000 فريق سريع النمو</p>
       <div class="marquee">
         <ul class="marquee-track">
           <li>Acme</li><li>Globex</li><li>Initech</li><li>Umbrella</li><li>Hooli</li>
@@ -179,10 +202,9 @@
     <!-- ================= STATEMENT ================= -->
     <section class="statement">
       <div class="container">
-        <p class="statement-text" data-highlight>
-          Your team deserves tools that disappear. Nimbus replaces a patchwork of dashboards,
-          scripts, and spreadsheets with one calm, blazing-fast workspace — so shipping feels
-          effortless again.
+        <p class="statement-text" data-highlight data-i18n="statement">
+          يستحق فريقك أدوات تعمل بصمت. تستبدل Nimbus خليطًا من لوحات التحكم والسكربتات
+          وجداول البيانات بمساحة عمل واحدة هادئة وفائقة السرعة — ليعود الإطلاق سهلًا من جديد.
         </p>
       </div>
     </section>
@@ -191,25 +213,25 @@
     <section id="features" class="section">
       <div class="container">
         <header class="section-head">
-          <span class="eyebrow">Features</span>
-          <h2 data-split>Everything you need. <em class="serif">Nothing</em> you don't.</h2>
-          <p data-fade>One platform for the entire software lifecycle — from the first ticket to the millionth request.</p>
+          <span class="eyebrow" data-i18n="features.eyebrow">المزايا</span>
+          <h2 data-split data-i18n-html="features.title">كل ما تحتاجه. <em class="serif">ولا شيء</em> زائد.</h2>
+          <p data-fade data-i18n="features.lead">منصة واحدة لدورة حياة البرمجيات كاملة — من أول مهمة إلى الطلب المليون.</p>
         </header>
 
         <div class="bento">
           <!-- Deploys -->
           <article class="bento-card span-2" data-reveal>
             <div class="bento-visual pipeline" aria-hidden="true">
-              <div class="pipe-node"><span>Build</span></div>
+              <div class="pipe-node"><span data-i18n="pipe.build">بناء</span></div>
               <div class="pipe-line"><i></i></div>
-              <div class="pipe-node"><span>Test</span></div>
+              <div class="pipe-node"><span data-i18n="pipe.test">اختبار</span></div>
               <div class="pipe-line"><i></i></div>
-              <div class="pipe-node"><span>Deploy</span></div>
+              <div class="pipe-node"><span data-i18n="pipe.deploy">نشر</span></div>
               <div class="pipe-line"><i></i></div>
-              <div class="pipe-node live"><span>Live</span></div>
+              <div class="pipe-node live"><span data-i18n="pipe.live">مباشر</span></div>
             </div>
-            <h3>One-click deploys</h3>
-            <p>Push to main and Nimbus builds, tests, and ships — with instant automatic rollbacks if anything looks off.</p>
+            <h3 data-i18n="f1.title">نشر بنقرة واحدة</h3>
+            <p data-i18n="f1.text">ادفع إلى الفرع الرئيسي وستتولى Nimbus البناء والاختبار والإطلاق — مع تراجع تلقائي فوري إذا ظهر أي خلل.</p>
           </article>
 
           <!-- Monitoring -->
@@ -220,8 +242,8 @@
               </svg>
               <span class="pulse-dot"></span>
             </div>
-            <h3>Real-time monitoring</h3>
-            <p>Live dashboards and alerts that cut through the noise.</p>
+            <h3 data-i18n="f2.title">مراقبة لحظية</h3>
+            <p data-i18n="f2.text">لوحات حية وتنبيهات ذكية تتجاوز الضوضاء.</p>
           </article>
 
           <!-- Security -->
@@ -230,19 +252,19 @@
               <span class="ring"></span><span class="ring"></span><span class="ring"></span>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
             </div>
-            <h3>Security built in</h3>
-            <p>SSO, RBAC, and audit logs on every plan. SOC 2 Type II.</p>
+            <h3 data-i18n="f3.title">أمان مدمج</h3>
+            <p data-i18n="f3.text">تسجيل دخول موحد وصلاحيات وسجلات تدقيق في كل الباقات. متوافقة مع SOC 2 Type II.</p>
           </article>
 
           <!-- Planning -->
           <article class="bento-card span-2" data-reveal>
             <div class="bento-visual kanban" aria-hidden="true">
-              <div class="col"><small>To do</small><i></i><i></i></div>
-              <div class="col"><small>In progress</small><i></i><i class="moving"></i></div>
-              <div class="col"><small>Shipped</small><i></i><i></i></div>
+              <div class="col"><small data-i18n="kanban.todo">للتنفيذ</small><i></i><i></i></div>
+              <div class="col"><small data-i18n="kanban.doing">قيد العمل</small><i></i><i class="moving"></i></div>
+              <div class="col"><small data-i18n="kanban.done">تم الإطلاق</small><i></i><i></i></div>
             </div>
-            <h3>Planning that's wired to your code</h3>
-            <p>Roadmaps, sprints, and issues that link directly to the commits and deploys behind them — status updates itself.</p>
+            <h3 data-i18n="f4.title">تخطيط مرتبط بالكود مباشرة</h3>
+            <p data-i18n="f4.text">خرائط طريق ودورات عمل ومهام مرتبطة مباشرة بالتعديلات وعمليات النشر خلفها — والحالة تتحدث تلقائيًا.</p>
           </article>
 
           <!-- Integrations -->
@@ -252,19 +274,19 @@
               <div class="orbit-ring r1"><span>GH</span><span>SL</span></div>
               <div class="orbit-ring r2"><span>JR</span><span>DD</span><span>AWS</span></div>
             </div>
-            <h3>50+ integrations</h3>
-            <p>Connect GitHub, Slack, Jira, Datadog, AWS, and the rest of your stack in a couple of clicks.</p>
+            <h3 data-i18n="f5.title">أكثر من 50 تكاملًا</h3>
+            <p data-i18n="f5.text">اربط GitHub وSlack وJira وDatadog وAWS وبقية أدواتك ببضع نقرات.</p>
           </article>
 
           <!-- Collaboration -->
           <article class="bento-card" data-reveal>
             <div class="bento-visual collab" aria-hidden="true">
-              <span class="cursor c1">Ana</span>
-              <span class="cursor c2">Leo</span>
+              <span class="cursor c1" data-i18n="collab.a">سارة</span>
+              <span class="cursor c2" data-i18n="collab.b">عمر</span>
               <div class="collab-doc"><i></i><i></i><i></i></div>
             </div>
-            <h3>Multiplayer by default</h3>
-            <p>Comments, reviews, and shared environments in real time.</p>
+            <h3 data-i18n="f6.title">تعاون جماعي افتراضيًا</h3>
+            <p data-i18n="f6.text">تعليقات ومراجعات وبيئات مشتركة في الوقت الفعلي.</p>
           </article>
         </div>
       </div>
@@ -274,32 +296,32 @@
     <section id="how" class="hscroll">
       <div class="hscroll-pin">
         <div class="container hscroll-head">
-          <span class="eyebrow">How it works</span>
-          <h2 data-split>Up and running in <em class="serif">minutes</em></h2>
+          <span class="eyebrow" data-i18n="how.eyebrow">كيف تعمل</span>
+          <h2 data-split data-i18n-html="how.title">جاهز للعمل خلال <em class="serif">دقائق</em></h2>
         </div>
         <div class="hscroll-track">
           <article class="step-card">
             <span class="step-num">01</span>
-            <h3>Connect your repo</h3>
-            <p>Link GitHub or GitLab. Nimbus detects your framework and configures builds automatically.</p>
-            <div class="step-visual"><code>$ nimbus link <b>acme/web</b><br/><span class="ok">✓ Detected Next.js 15</span></code></div>
+            <h3 data-i18n="s1.title">اربط مستودعك</h3>
+            <p data-i18n="s1.text">اربط GitHub أو GitLab وستكتشف Nimbus إطار العمل وتهيئ البناء تلقائيًا.</p>
+            <div class="step-visual" dir="ltr"><code>$ nimbus link <b>acme/web</b><br/><span class="ok">✓ Detected Next.js 15</span></code></div>
           </article>
           <article class="step-card">
             <span class="step-num">02</span>
-            <h3>Invite your team</h3>
-            <p>Bring teammates in with SSO and set granular permissions from one place.</p>
+            <h3 data-i18n="s2.title">ادعُ فريقك</h3>
+            <p data-i18n="s2.text">أضف زملاءك عبر تسجيل الدخول الموحد واضبط الصلاحيات بدقة من مكان واحد.</p>
             <div class="step-visual"><div class="invite"><i></i><i></i><i></i><i></i><span>+12</span></div></div>
           </article>
           <article class="step-card">
             <span class="step-num">03</span>
-            <h3>Ship with confidence</h3>
-            <p>Every push is built, tested, deployed, and monitored — automatically, around the clock.</p>
-            <div class="step-visual"><div class="ship"><span class="ok">●</span> Production · <b>live</b> in 41s</div></div>
+            <h3 data-i18n="s3.title">أطلق بثقة</h3>
+            <p data-i18n="s3.text">كل تعديل يُبنى ويُختبر ويُنشر ويُراقب — تلقائيًا وعلى مدار الساعة.</p>
+            <div class="step-visual"><div class="ship" data-i18n-html="s3.status"><span class="ok">●</span> الإنتاج · <b>مباشر</b> خلال 41 ثانية</div></div>
           </article>
           <article class="step-card step-cta">
-            <h3>Ready when you are.</h3>
-            <p>Join 4,000+ teams already shipping faster.</p>
-            <a href="#contact" class="btn btn-primary btn-lg" data-magnetic><span>Start free trial</span></a>
+            <h3 data-i18n="s4.title">جاهزون متى كنت جاهزًا.</h3>
+            <p data-i18n="s4.text">انضم إلى أكثر من 4,000 فريق يطلقون منتجاتهم أسرع.</p>
+            <a href="#contact" class="btn btn-primary btn-lg" data-magnetic><span data-i18n="hero.cta1">ابدأ تجربتك المجانية</span></a>
           </article>
         </div>
       </div>
@@ -310,20 +332,20 @@
       <div class="container">
         <div class="stats-grid">
           <div class="stat" data-reveal>
-            <strong><span data-count="10">0</span>×</strong>
-            <p>faster release cycles</p>
+            <strong dir="ltr"><span data-count="10">0</span>×</strong>
+            <p data-i18n="stats.1">إطلاق أسرع للإصدارات</p>
           </div>
           <div class="stat" data-reveal>
-            <strong><span data-count="99.99" data-decimals="2">0</span>%</strong>
-            <p>platform uptime SLA</p>
+            <strong dir="ltr"><span data-count="99.99" data-decimals="2">0</span>%</strong>
+            <p data-i18n="stats.2">ضمان وقت تشغيل المنصة</p>
           </div>
           <div class="stat" data-reveal>
-            <strong><span data-count="4000" data-format>0</span>+</strong>
-            <p>teams shipping daily</p>
+            <strong dir="ltr"><span data-count="4000" data-format>0</span>+</strong>
+            <p data-i18n="stats.3">فريق يطلق يوميًا</p>
           </div>
           <div class="stat" data-reveal>
-            <strong><span data-count="68">0</span>%</strong>
-            <p>less time on ops work</p>
+            <strong dir="ltr"><span data-count="68">0</span>%</strong>
+            <p data-i18n="stats.4">وقت أقل في مهام التشغيل</p>
           </div>
         </div>
       </div>
@@ -333,41 +355,41 @@
     <section id="contact" class="section contact">
       <div class="container contact-grid">
         <div class="contact-copy">
-          <span class="eyebrow">Get in touch</span>
-          <h2 data-split>Ready to move <em class="serif">faster?</em></h2>
-          <p data-fade>Start a free trial or tell us about your team — we'll get back to you within one business day.</p>
+          <span class="eyebrow" data-i18n="contact.eyebrow">تواصل معنا</span>
+          <h2 data-split data-i18n-html="contact.title">مستعد للانطلاق <em class="serif">أسرع؟</em></h2>
+          <p data-fade data-i18n="contact.lead">ابدأ تجربة مجانية أو أخبرنا عن فريقك — وسنرد عليك خلال يوم عمل واحد.</p>
           <ul class="contact-points">
-            <li data-fade><span>✓</span> Personalized demo for your stack</li>
-            <li data-fade><span>✓</span> White-glove migration from your current tools</li>
-            <li data-fade><span>✓</span> Volume pricing for larger teams</li>
+            <li data-fade><span>✓</span> <b data-i18n="contact.p1">عرض توضيحي مخصص لأدواتك</b></li>
+            <li data-fade><span>✓</span> <b data-i18n="contact.p2">انتقال سلس ومُدار من أدواتك الحالية</b></li>
+            <li data-fade><span>✓</span> <b data-i18n="contact.p3">أسعار خاصة للفرق الكبيرة</b></li>
           </ul>
-          <p class="contact-direct" data-fade>Prefer email? <a href="mailto:hello@example.com">hello@example.com</a></p>
+          <p class="contact-direct" data-fade><span data-i18n="contact.email">تفضّل البريد الإلكتروني؟</span> <a href="mailto:hello@example.com">hello@example.com</a></p>
         </div>
 
         <div class="form-shell" data-reveal>
           <form class="contact-form" id="contact-form" novalidate>
             <div class="field">
               <input id="name" name="name" type="text" autocomplete="name" placeholder=" " required />
-              <label for="name">Name</label>
+              <label for="name" data-i18n="form.name">الاسم</label>
               <small class="error" aria-live="polite"></small>
             </div>
             <div class="field">
-              <input id="email" name="email" type="email" autocomplete="email" placeholder=" " required />
-              <label for="email">Work email</label>
+              <input id="email" name="email" type="email" autocomplete="email" placeholder=" " dir="ltr" required />
+              <label for="email" data-i18n="form.email">البريد الإلكتروني للعمل</label>
               <small class="error" aria-live="polite"></small>
             </div>
             <div class="field">
               <input id="company" name="company" type="text" autocomplete="organization" placeholder=" " />
-              <label for="company">Company (optional)</label>
+              <label for="company" data-i18n="form.company">الشركة (اختياري)</label>
             </div>
             <div class="field">
               <textarea id="message" name="message" rows="4" placeholder=" " required></textarea>
-              <label for="message">How can we help?</label>
+              <label for="message" data-i18n="form.message">كيف يمكننا مساعدتك؟</label>
               <small class="error" aria-live="polite"></small>
             </div>
             <!-- Honeypot field to deter spam bots -->
             <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
-            <button type="submit" class="btn btn-primary btn-lg btn-block" data-magnetic><span>Send message</span></button>
+            <button type="submit" class="btn btn-primary btn-lg btn-block" data-magnetic><span data-i18n="form.send">إرسال الرسالة</span></button>
             <p class="form-status" role="status" aria-live="polite"></p>
           </form>
         </div>
@@ -382,30 +404,33 @@
           <img src="assets/favicon.svg" alt="" width="24" height="24" />
           <span>Nimbus</span>
         </a>
-        <p class="muted">The all-in-one platform for software teams.</p>
+        <p class="muted" data-i18n="footer.tagline">المنصة المتكاملة لفرق البرمجيات.</p>
       </div>
-      <nav aria-label="Footer">
-        <h4>Product</h4>
-        <a href="#features">Features</a>
-        <a href="#how">How it works</a>
-        <a href="#contact">Contact</a>
+      <nav data-i18n-attr="aria-label:footer.product" aria-label="المنتج">
+        <h4 data-i18n="footer.product">المنتج</h4>
+        <a href="#features" data-i18n="nav.features">المزايا</a>
+        <a href="#how" data-i18n="nav.how">كيف تعمل</a>
+        <a href="#contact" data-i18n="nav.contact">تواصل معنا</a>
       </nav>
-      <nav aria-label="Company">
-        <h4>Company</h4>
-        <a href="#">About</a>
-        <a href="#">Careers</a>
-        <a href="#">Blog</a>
+      <nav data-i18n-attr="aria-label:footer.company" aria-label="الشركة">
+        <h4 data-i18n="footer.company">الشركة</h4>
+        <a href="#" data-i18n="footer.about">من نحن</a>
+        <a href="#" data-i18n="footer.careers">الوظائف</a>
+        <a href="#" data-i18n="footer.blog">المدونة</a>
       </nav>
-      <nav aria-label="Legal">
-        <h4>Legal</h4>
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
+      <nav data-i18n-attr="aria-label:footer.legal" aria-label="قانوني">
+        <h4 data-i18n="footer.legal">قانوني</h4>
+        <a href="#" data-i18n="footer.privacy">الخصوصية</a>
+        <a href="#" data-i18n="footer.terms">الشروط</a>
       </nav>
     </div>
-    <div class="footer-mega" aria-hidden="true">Nimbus</div>
+    <div class="footer-mega" aria-hidden="true" dir="ltr">Nimbus</div>
     <div class="container footer-bottom">
-      <p>© <span id="year"></span> Nimbus, Inc. All rights reserved.</p>
-      <a href="#top" class="back-top">Back to top ↑</a>
+      <p>© <span id="year"></span> <span data-i18n="footer.rights">Nimbus. جميع الحقوق محفوظة.</span></p>
+      <div class="footer-links">
+        <a href="?lang=en" class="lang-switch lang-switch-text" data-lang-switch hreflang="en" lang="en">English</a>
+        <a href="#top" class="back-top" data-i18n="footer.top">العودة للأعلى ↑</a>
+      </div>
     </div>
   </footer>
 
@@ -413,6 +438,7 @@
   <script src="js/vendor/gsap.min.js" defer></script>
   <script src="js/vendor/ScrollTrigger.min.js" defer></script>
   <script src="js/vendor/lenis.min.js" defer></script>
+  <script src="js/i18n.js" defer></script>
   <script src="js/main.js" defer></script>
 </body>
 </html>

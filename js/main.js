@@ -14,6 +14,58 @@ const finePointer = window.matchMedia("(pointer: fine)").matches;
 const hasGSAP = typeof window.gsap !== "undefined" && typeof window.ScrollTrigger !== "undefined";
 const animate = hasGSAP && !reducedMotion;
 
+/* ==========================================================
+   Language (Arabic default, English optional)
+   ----------------------------------------------------------
+   The inline script in <head> already set <html lang/dir>.
+   Arabic copy is in the HTML; English comes from js/i18n.js.
+   ========================================================== */
+const root = document.documentElement;
+if (!window.I18N) { root.lang = "ar"; root.dir = "rtl"; } // translations missing: stay Arabic
+const LANG = root.lang === "en" ? "en" : "ar";
+const isRTL = LANG === "ar";
+const T = window.I18N ? window.I18N.ui[LANG] : {};
+
+function applyTranslations(dict) {
+  document.querySelectorAll("[data-i18n]").forEach((el) => {
+    const v = dict[el.dataset.i18n];
+    if (v != null) el.textContent = v;
+  });
+  document.querySelectorAll("[data-i18n-html]").forEach((el) => {
+    const v = dict[el.dataset.i18nHtml];
+    if (v != null) el.innerHTML = v;
+  });
+  document.querySelectorAll("[data-i18n-attr]").forEach((el) => {
+    el.dataset.i18nAttr.split(";").forEach((pair) => {
+      const [attr, key] = pair.split(":");
+      if (dict[key] != null) el.setAttribute(attr, dict[key]);
+    });
+  });
+}
+
+if (LANG === "en") applyTranslations(window.I18N.en);
+try { localStorage.setItem("lang", LANG); } catch (e) {}
+
+document.querySelectorAll("[data-lang-switch]").forEach((link) => {
+  const to = T.switchTo;
+  if (!to) return;
+  const url = new URL(location.href);
+  url.hash = "";
+  if (to.lang === "ar") url.searchParams.delete("lang");
+  else url.searchParams.set("lang", to.lang);
+  link.href = url.toString();
+  link.hreflang = to.lang;
+  link.lang = to.lang;
+  link.textContent = link.classList.contains("lang-switch-text") ? to.text : to.label;
+  link.setAttribute("aria-label", to.aria);
+  link.addEventListener("click", () => {
+    try {
+      localStorage.setItem("lang", to.lang);
+      sessionStorage.setItem("quickIntro", "1");
+    } catch (e) {}
+  });
+});
+
 document.getElementById("year").textContent = new Date().getFullYear();
 
 /* ==========================================================
@@ -99,7 +151,7 @@ const menu = document.getElementById("nav-menu");
 function setMenu(open) {
   menu.classList.toggle("open", open);
   toggle.setAttribute("aria-expanded", String(open));
-  toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  toggle.setAttribute("aria-label", open ? T.menuClose : T.menuOpen);
 }
 toggle.addEventListener("click", () => setMenu(!menu.classList.contains("open")));
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") setMenu(false); });
@@ -192,13 +244,6 @@ const feed = document.querySelector(".mock-feed");
 const deploysEl = document.querySelector('[data-live="deploys"]');
 const latencyEl = document.querySelector('[data-live="latency"]');
 const services = ["api-gateway", "web-app", "auth-service", "billing", "search", "notifications", "edge-cache", "worker"];
-const actions = [
-  ["ok", "deployed to production"],
-  ["ok", "preview ready"],
-  ["ok", "tests passed (412)"],
-  ["ok", "scaled to 6 replicas"],
-  ["warn", "auto-rolled back"],
-];
 let deploys = 128;
 
 function bump(el, text) {
@@ -208,18 +253,18 @@ function bump(el, text) {
   el.classList.add("tick");
 }
 
-if (!reducedMotion && feed) {
+if (!reducedMotion && feed && T.feed) {
   setInterval(() => {
     if (document.hidden) return;
-    const [state, action] = actions[Math.random() < 0.85 ? Math.floor(Math.random() * 4) : 4];
+    const [state, template] = T.feed[Math.random() < 0.85 ? Math.floor(Math.random() * 4) : 4];
     const service = services[Math.floor(Math.random() * services.length)];
     const li = document.createElement("li");
     li.className = "enter";
-    li.innerHTML = `<b class="dot ${state}"></b><span>${service} ${action}</span><time>now</time>`;
+    li.innerHTML = `<b class="dot ${state}"></b><span>${template.replace("{s}", service)}</span><time>${T.now}</time>`;
     feed.prepend(li);
-    feed.querySelectorAll("li time").forEach((t, i) => { if (i === 1) t.textContent = "1m"; });
+    feed.querySelectorAll("li time").forEach((t, i) => { if (i === 1) t.textContent = T.oneMin; });
     while (feed.children.length > 3) feed.lastElementChild.remove();
-    if (action.startsWith("deployed")) bump(deploysEl, ++deploys);
+    if (template === T.feed[0][1]) bump(deploysEl, ++deploys);
     bump(latencyEl, `${78 + Math.floor(Math.random() * 14)}ms`);
   }, 2800);
 }
@@ -343,13 +388,18 @@ if (!animate) {
 
   /* Preloader counter */
   const count = { v: 0 };
+  let quickIntro = false;
+  try {
+    quickIntro = sessionStorage.getItem("quickIntro") === "1";
+    sessionStorage.removeItem("quickIntro");
+  } catch (e) {}
   const bar = document.querySelector(".preloader-bar i");
   const countEl = document.querySelector(".preloader-count");
   const intro = gsap.timeline();
 
   intro
     .to(count, {
-      v: 100, duration: 1.4, ease: "power2.inOut",
+      v: 100, duration: quickIntro ? 0.4 : 1.4, ease: "power2.inOut",
       onUpdate: () => {
         countEl.textContent = Math.round(count.v);
         bar.style.width = `${count.v}%`;
@@ -436,14 +486,15 @@ if (!animate) {
     const track = document.querySelector(".hscroll-track");
     const distance = () => track.scrollWidth - window.innerWidth;
     gsap.to(track, {
-      x: () => -distance(), ease: "none",
+      // RTL content overflows to the left, so the track moves the other way
+      x: () => (isRTL ? distance() : -distance()), ease: "none",
       scrollTrigger: {
         trigger: ".hscroll", start: "top top", end: () => `+=${distance()}`,
         pin: true, scrub: 1, invalidateOnRefresh: true, anticipatePin: 1,
       },
     });
     gsap.from(".step-card", {
-      autoAlpha: 0, x: 120, rotate: 3, duration: 1.2, ease: "expo.out", stagger: 0.1,
+      autoAlpha: 0, x: isRTL ? -120 : 120, rotate: isRTL ? -3 : 3, duration: 1.2, ease: "expo.out", stagger: 0.1,
       scrollTrigger: { trigger: ".hscroll", start: "top 70%" },
     });
   });
@@ -485,9 +536,9 @@ function validate() {
   let firstInvalid = null;
 
   const checks = [
-    [name, name.value.trim() ? "" : "Please enter your name."],
-    [email, !email.value.trim() ? "Please enter your email." : EMAIL_RE.test(email.value.trim()) ? "" : "Please enter a valid email address."],
-    [message, message.value.trim().length >= 10 ? "" : "Please write at least 10 characters."],
+    [name, name.value.trim() ? "" : T.errName],
+    [email, !email.value.trim() ? T.errEmail : EMAIL_RE.test(email.value.trim()) ? "" : T.errEmailInvalid],
+    [message, message.value.trim().length >= 10 ? "" : T.errMessage],
   ];
 
   checks.forEach(([input, msg]) => {
@@ -514,20 +565,20 @@ form.addEventListener("submit", async (e) => {
   const data = new FormData(form);
 
   if (!FORM_ENDPOINT) {
-    const subject = encodeURIComponent(`Inquiry from ${data.get("name")}`);
+    const subject = encodeURIComponent(`${T.subject} ${data.get("name")}`);
     const body = encodeURIComponent(
       `${data.get("message")}\n\n— ${data.get("name")}\n${data.get("email")}${data.get("company") ? `\n${data.get("company")}` : ""}`
     );
     window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
     statusEl.classList.add("success");
-    statusEl.textContent = "Opening your email app…";
+    statusEl.textContent = T.opening;
     return;
   }
 
   const button = form.querySelector("button[type=submit]");
   const label = button.querySelector("span");
   button.disabled = true;
-  label.textContent = "Sending…";
+  label.textContent = T.sending;
 
   try {
     const res = await fetch(FORM_ENDPOINT, {
@@ -538,12 +589,12 @@ form.addEventListener("submit", async (e) => {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     form.reset();
     statusEl.classList.add("success");
-    statusEl.textContent = "Thanks! We'll be in touch within one business day.";
+    statusEl.textContent = T.success;
   } catch {
     statusEl.classList.add("fail");
-    statusEl.textContent = `Something went wrong. Please email us at ${CONTACT_EMAIL}.`;
+    statusEl.textContent = `${T.fail} ${CONTACT_EMAIL}`;
   } finally {
     button.disabled = false;
-    label.textContent = "Send message";
+    label.textContent = T.send;
   }
 });
