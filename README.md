@@ -42,7 +42,7 @@ python3 -m http.server 8000
 
 - **Copy:** Arabic text is in `index.html`, English in `js/i18n.js`. Live-dashboard names, branches, and warehouses are in `js/i18n.js` under `ui`.
 - **Brand colors:** edit `--violet`, `--cyan`, and `--pink` at the top of `css/styles.css` (particle colors are in `js/main.js`).
-- **Logo:** replace `assets/favicon.svg`.
+- **Logo:** the 3D icon is `assets/logo-icon.png`, rendered from the layered source in `assets/brand/` (editable in Photopea or Inkscape, both free). `assets/favicon.svg` is the flat version for small sizes. See `assets/brand/README.md`.
 - **Contact:** the form opens a WhatsApp chat to `WHATSAPP_NUMBER` in `js/main.js` with the visitor's details filled in. WhatsApp numbers and the email shown on the page are in `index.html` (contact section and floating button). To collect submissions on a server instead, set `FORM_ENDPOINT` (e.g. Formspree).
 
 ## Deploy

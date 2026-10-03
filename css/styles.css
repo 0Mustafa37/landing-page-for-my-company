@@ -253,7 +253,7 @@ p  { margin: 0 0 1em; }
   backdrop-filter: blur(18px) saturate(160%); -webkit-backdrop-filter: blur(18px) saturate(160%);
   box-shadow: 0 10px 40px -20px var(--shadow-c);
 }
-.logo { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; letter-spacing: -.02em; }
+.logo { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; letter-spacing: -.02em; }
 .nav-menu { display: flex; gap: 6px; }
 .nav-menu a { position: relative; padding: 8px 14px; color: var(--muted); font-size: .92rem; font-weight: 500; border-radius: 999px; transition: color .3s, background .3s; }
 .nav-menu a:hover { color: var(--text); background: rgba(var(--tint), .05); }
@@ -592,7 +592,7 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before, html.theme-anim *
 }
 
 /* Orbit */
-.orbit-core { position: relative; z-index: 2; width: 64px; height: 64px; display: grid; place-items: center; border-radius: 18px; background: rgba(139, 92, 246, .15); border: 1px solid rgba(139, 92, 246, .5); box-shadow: 0 0 50px rgba(139, 92, 246, .5); }
+.orbit-core { position: relative; z-index: 2; display: grid; place-items: center; border-radius: 18px; box-shadow: 0 0 60px rgba(139, 92, 246, .45); }
 .orbit-ring { position: absolute; border-radius: 50%; border: 1px dashed var(--border-strong); animation: orbit 18s linear infinite; }
 .orbit-ring.r1 { width: 150px; height: 150px; }
 .orbit-ring.r2 { width: 260px; height: 260px; animation-duration: 28s; animation-direction: reverse; }
@@ -762,6 +762,8 @@ html[lang="ar"] .channel b[dir="ltr"] { text-align: right; }
 .footer-grid nav a { color: var(--muted); font-size: .95rem; transition: color .3s; }
 .footer-grid nav a:hover { color: var(--text); }
 .footer-grid .logo { margin-bottom: 12px; }
+.logo img { transition: transform .5s var(--ease); }
+.logo:hover img { transform: rotate(-8deg) scale(1.06); }
 .footer-mega {
   font-family: var(--font-display); font-weight: 800; letter-spacing: -.07em; line-height: .8;
   font-size: clamp(5rem, 23vw, 22rem); text-align: center; margin: 70px 0 0; user-select: none;
