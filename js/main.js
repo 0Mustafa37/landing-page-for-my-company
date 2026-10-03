@@ -8,7 +8,7 @@
    ========================================================== */
 const FORM_ENDPOINT = "";
 const WHATSAPP_NUMBER = "201019959218"; // 0101 995 9218, international format without "+"
-const CONTACT_EMAIL = "mabdelaal474@gmail.com";
+const CONTACT_EMAIL = "tanzim.eg@gmail.com";
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const finePointer = window.matchMedia("(pointer: fine)").matches;
