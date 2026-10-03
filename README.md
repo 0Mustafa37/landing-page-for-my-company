@@ -1,6 +1,8 @@
-# Company Landing Page
+# Tanzim · تنظيم — Landing Page
 
-A premium, animated landing page for a software/SaaS company. Plain HTML, CSS, and JavaScript with no build step. Animations use [GSAP](https://gsap.com) + ScrollTrigger and [Lenis](https://lenis.darkroom.engineering) smooth scrolling, bundled locally in `js/vendor/`. Every animation turns off for visitors who prefer reduced motion, and the page still works fully if JavaScript fails.
+Landing page for **Tanzim (تنظيم)**, a cloud system that helps companies track employee attendance (check-in/check-out), warehouses and inventory, and custody (assets held by employees), and automate routine tasks.
+
+A premium, animated page. Plain HTML, CSS, and JavaScript with no build step. Animations use [GSAP](https://gsap.com) + ScrollTrigger and [Lenis](https://lenis.darkroom.engineering) smooth scrolling, bundled locally in `js/vendor/`. Every animation turns off for visitors who prefer reduced motion, and the page still works fully if JavaScript fails.
 
 ## Structure
 
@@ -34,7 +36,7 @@ python3 -m http.server 8000
 
 ## Customize
 
-- **Company name and copy:** search `index.html` and `js/i18n.js` for `Nimbus` and replace the placeholder text.
+- **Copy:** Arabic text is in `index.html`, English in `js/i18n.js`. Live-dashboard names, branches, and warehouses are in `js/i18n.js` under `ui`.
 - **Brand colors:** edit `--violet`, `--cyan`, and `--pink` at the top of `css/styles.css` (particle colors are in `js/main.js`).
 - **Logo:** replace `assets/favicon.svg`.
 - **Contact form:** in `js/main.js`, set `CONTACT_EMAIL` to your address. To receive submissions without opening the visitor's email app, create a free form at a service like [Formspree](https://formspree.io) and paste its URL into `FORM_ENDPOINT`.

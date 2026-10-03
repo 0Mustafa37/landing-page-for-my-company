@@ -241,10 +241,9 @@ if (animate && finePointer && mock) {
    Hero: live dashboard ticker
    ========================================================== */
 const feed = document.querySelector(".mock-feed");
-const deploysEl = document.querySelector('[data-live="deploys"]');
-const latencyEl = document.querySelector('[data-live="latency"]');
-const services = ["api-gateway", "web-app", "auth-service", "billing", "search", "notifications", "edge-cache", "worker"];
-let deploys = 128;
+const presentEl = document.querySelector('[data-live="present"]');
+const TOTAL_STAFF = 150;
+let present = 142;
 
 function bump(el, text) {
   el.textContent = text;
@@ -253,19 +252,31 @@ function bump(el, text) {
   el.classList.add("tick");
 }
 
+const pick = (list) => list[Math.floor(Math.random() * list.length)];
+
+function feedText(template) {
+  return template
+    .replace("{n}", pick(T.names))
+    .replace("{b}", pick(T.branches))
+    .replace("{w}", pick(T.warehouses))
+    .replace("{q}", 5 + Math.floor(Math.random() * 40))
+    .replace("{i}", pick(T.items))
+    .replace("{a}", pick(T.assets));
+}
+
 if (!reducedMotion && feed && T.feed) {
   setInterval(() => {
     if (document.hidden) return;
-    const [state, template] = T.feed[Math.random() < 0.85 ? Math.floor(Math.random() * 4) : 4];
-    const service = services[Math.floor(Math.random() * services.length)];
+    // Mostly check-ins while staff are still arriving, then a mix of everything else
+    const checkIn = present < TOTAL_STAFF && Math.random() < 0.45;
+    const [state, template] = checkIn ? T.feed[0] : pick(T.feed.slice(1));
     const li = document.createElement("li");
     li.className = "enter";
-    li.innerHTML = `<b class="dot ${state}"></b><span>${template.replace("{s}", service)}</span><time>${T.now}</time>`;
+    li.innerHTML = `<b class="dot ${state}"></b><span>${feedText(template)}</span><time>${T.now}</time>`;
     feed.prepend(li);
     feed.querySelectorAll("li time").forEach((t, i) => { if (i === 1) t.textContent = T.oneMin; });
     while (feed.children.length > 3) feed.lastElementChild.remove();
-    if (template === T.feed[0][1]) bump(deploysEl, ++deploys);
-    bump(latencyEl, `${78 + Math.floor(Math.random() * 14)}ms`);
+    if (checkIn) bump(presentEl, `${++present}/${TOTAL_STAFF}`);
   }, 2800);
 }
 
@@ -519,6 +530,15 @@ if (!animate) {
 const form = document.getElementById("contact-form");
 const statusEl = form.querySelector(".form-status");
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE_RE = /^\+?\d{8,15}$/;
+
+// Accept Arabic-Indic digits (٠١٢…) and spaces/dashes, e.g. "٠١٠ ١٢٣٤ ٥٦٧٨"
+function normalizePhone(value) {
+  return value
+    .replace(/[\u0660-\u0669]/g, (d) => d.charCodeAt(0) - 0x0660)
+    .replace(/[\u06F0-\u06F9]/g, (d) => d.charCodeAt(0) - 0x06F0)
+    .replace(/[\s()-]/g, "");
+}
 
 function setError(input, message) {
   const field = input.closest(".field");
@@ -532,12 +552,13 @@ function setError(input, message) {
 }
 
 function validate() {
-  const { name, email, message } = form.elements;
+  const { name, phone, email, message } = form.elements;
   let firstInvalid = null;
 
   const checks = [
     [name, name.value.trim() ? "" : T.errName],
-    [email, !email.value.trim() ? T.errEmail : EMAIL_RE.test(email.value.trim()) ? "" : T.errEmailInvalid],
+    [phone, PHONE_RE.test(normalizePhone(phone.value)) ? "" : T.errPhone],
+    [email, !email.value.trim() || EMAIL_RE.test(email.value.trim()) ? "" : T.errEmailInvalid],
     [message, message.value.trim().length >= 10 ? "" : T.errMessage],
   ];
 
@@ -567,7 +588,7 @@ form.addEventListener("submit", async (e) => {
   if (!FORM_ENDPOINT) {
     const subject = encodeURIComponent(`${T.subject} ${data.get("name")}`);
     const body = encodeURIComponent(
-      `${data.get("message")}\n\n— ${data.get("name")}\n${data.get("email")}${data.get("company") ? `\n${data.get("company")}` : ""}`
+      `${data.get("message")}\n\n— ${data.get("name")}\n${T.phoneLabel}: ${normalizePhone(data.get("phone"))}${data.get("email") ? `\n${data.get("email")}` : ""}${data.get("company") ? `\n${data.get("company")}` : ""}`
     );
     window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
     statusEl.classList.add("success");
