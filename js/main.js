@@ -1,13 +1,14 @@
 /* ==========================================================
    Config
    ----------------------------------------------------------
-   Set FORM_ENDPOINT to a form backend URL (e.g. Formspree:
-   "https://formspree.io/f/your-id") to receive submissions.
-   Leave it empty to fall back to opening the visitor's email
-   client addressed to CONTACT_EMAIL.
+   The contact form opens a WhatsApp chat to WHATSAPP_NUMBER
+   with the visitor's details filled in. To collect submissions
+   on a server instead, set FORM_ENDPOINT to a form backend URL
+   (e.g. Formspree: "https://formspree.io/f/your-id").
    ========================================================== */
 const FORM_ENDPOINT = "";
-const CONTACT_EMAIL = "hello@example.com";
+const WHATSAPP_NUMBER = "201019959218"; // 0101 995 9218, international format without "+"
+const CONTACT_EMAIL = "mabdelaal474@gmail.com";
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const finePointer = window.matchMedia("(pointer: fine)").matches;
@@ -44,6 +45,36 @@ function applyTranslations(dict) {
 }
 
 if (LANG === "en") applyTranslations(window.I18N.en);
+
+/* ==========================================================
+   Theme (dark default, light optional)
+   ----------------------------------------------------------
+   The inline script in <head> already set data-theme.
+   ========================================================== */
+const themeToggle = document.querySelector("[data-theme-toggle]");
+const themeColor = document.querySelector("[data-theme-color]");
+
+function setTheme(theme, animateChange) {
+  if (animateChange) {
+    root.classList.add("theme-anim");
+    setTimeout(() => root.classList.remove("theme-anim"), 500);
+  }
+  root.setAttribute("data-theme", theme);
+  if (themeColor) themeColor.content = theme === "light" ? "#f5f6fb" : "#05060a";
+  if (themeToggle) themeToggle.setAttribute("aria-label", theme === "light" ? T.themeToDark : T.themeToLight);
+  try { localStorage.setItem("theme", theme); } catch (e) {}
+}
+setTheme(root.getAttribute("data-theme") === "light" ? "light" : "dark", false);
+if (themeToggle) {
+  themeToggle.addEventListener("click", () => {
+    setTheme(root.getAttribute("data-theme") === "light" ? "dark" : "light", true);
+  });
+}
+
+/* WhatsApp links open with a greeting in the visitor's language */
+document.querySelectorAll("[data-wa]").forEach((link) => {
+  if (T.waGreeting) link.href = `${link.href.split("?")[0]}?text=${encodeURIComponent(T.waGreeting)}`;
+});
 try { localStorage.setItem("lang", LANG); } catch (e) {}
 
 document.querySelectorAll("[data-lang-switch]").forEach((link) => {
@@ -586,11 +617,20 @@ form.addEventListener("submit", async (e) => {
   const data = new FormData(form);
 
   if (!FORM_ENDPOINT) {
-    const subject = encodeURIComponent(`${T.subject} ${data.get("name")}`);
-    const body = encodeURIComponent(
-      `${data.get("message")}\n\n— ${data.get("name")}\n${T.phoneLabel}: ${normalizePhone(data.get("phone"))}${data.get("email") ? `\n${data.get("email")}` : ""}${data.get("company") ? `\n${data.get("company")}` : ""}`
-    );
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+    const lines = [
+      T.waGreeting,
+      "",
+      data.get("message").trim(),
+      "",
+      `${T.nameLabel}: ${data.get("name").trim()}`,
+      `${T.phoneLabel}: ${normalizePhone(data.get("phone"))}`,
+    ];
+    if (data.get("email").trim()) lines.push(`${T.emailLabel}: ${data.get("email").trim()}`);
+    if (data.get("company").trim()) lines.push(`${T.companyLabel}: ${data.get("company").trim()}`);
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join("\n"))}`;
+    const win = window.open(url, "_blank");
+    if (win) win.opener = null;
+    else window.location.href = url; // popup blocked: open in this tab
     statusEl.classList.add("success");
     statusEl.textContent = T.opening;
     return;

@@ -25,6 +25,10 @@ Arabic is the default (right-to-left). Visitors can switch to English with the *
 
 When you change text, update both places.
 
+## Theme
+
+Dark mode is the default. Visitors can switch to light mode with the sun/moon button in the header; their choice is remembered. Colors for both themes are CSS variables at the top of `css/styles.css` (`:root` for dark, `:root[data-theme="light"]` for light).
+
 ## Run locally
 
 Open `index.html` in a browser, or serve the folder:
@@ -39,7 +43,7 @@ python3 -m http.server 8000
 - **Copy:** Arabic text is in `index.html`, English in `js/i18n.js`. Live-dashboard names, branches, and warehouses are in `js/i18n.js` under `ui`.
 - **Brand colors:** edit `--violet`, `--cyan`, and `--pink` at the top of `css/styles.css` (particle colors are in `js/main.js`).
 - **Logo:** replace `assets/favicon.svg`.
-- **Contact form:** in `js/main.js`, set `CONTACT_EMAIL` to your address. To receive submissions without opening the visitor's email app, create a free form at a service like [Formspree](https://formspree.io) and paste its URL into `FORM_ENDPOINT`.
+- **Contact:** the form opens a WhatsApp chat to `WHATSAPP_NUMBER` in `js/main.js` with the visitor's details filled in. WhatsApp numbers and the email shown on the page are in `index.html` (contact section and floating button). To collect submissions on a server instead, set `FORM_ENDPOINT` (e.g. Formspree).
 
 ## Deploy
 
